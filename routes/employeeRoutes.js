@@ -6,7 +6,8 @@ const {
   getEmployees,
   createEmployee,
   deleteEmployee,
-  updateEmployee
+  updateEmployee,
+  importEmployees
 } = require("../controllers/employeeController");
 
 router.get("/", auth, role(["employee_manager", "super_admin"]), getEmployees);
