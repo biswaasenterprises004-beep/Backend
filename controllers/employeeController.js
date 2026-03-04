@@ -116,3 +116,41 @@ exports.updateEmployee = async (req, res) => {
     res.status(500).json({ message: "Update failed" });
   }
 };
+
+
+exports.importEmployees = async (req,res)=>{
+
+  try{
+
+    const employees = req.body.employees
+
+    const formatted = employees.map(emp=>({
+
+      photo:"/default-avatar.png",
+      name:emp.name,
+      age:Number(emp.age),
+      contact:emp.contact,
+      address:emp.address,
+      skill:emp.skill,
+      specialization:emp.specialization,
+      status:emp.status || "Active",
+      type:emp.type || "Permanent",
+      salary:Number(emp.salary) || 0,
+      hours:Number(emp.hours) || 0,
+      pendingSalary:Number(emp.pendingSalary) || 0,
+      liability:Number(emp.liability) || 0
+
+    }))
+
+    await Employee.insertMany(formatted)
+
+    res.json({message:"Employees imported successfully"})
+
+  }
+  catch(err){
+
+    res.status(500).json({message:"Import failed"})
+
+  }
+
+}

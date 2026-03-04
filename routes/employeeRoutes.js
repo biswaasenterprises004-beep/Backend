@@ -13,6 +13,6 @@ router.get("/", auth, role(["employee_manager", "super_admin"]), getEmployees);
 router.post("/", auth, role(["employee_manager", "super_admin"]), createEmployee);
 router.delete("/:id", auth, role(["employee_manager", "super_admin"]), deleteEmployee);
 router.put("/:id", auth, role(["employee_manager", "super_admin"]), updateEmployee);
-
+router.post("/import",auth, role(["employee_manager", "super_admin"]), importEmployees)
 
 module.exports = router;
