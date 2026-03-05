@@ -10,6 +10,14 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+transporter.verify(function (error, success) {
+  if (error) {
+    console.error("❌ SMTP connection failed:", error);
+  } else {
+    console.log("✅ SMTP server is ready to send emails");
+  }
+});
+
 const sendMail = async (to, subject, html) => {
   return transporter.sendMail({
     from: `"Biswa Enterprises" <${process.env.ZOHO_EMAIL}>`,
