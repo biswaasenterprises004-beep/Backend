@@ -1,30 +1,31 @@
 const nodemailer = require("nodemailer");
 
 const transporter = nodemailer.createTransport({
-  host: "smtp.zoho.com", // change to .com if needed
-  port: 465,
-  secure: true,
+  host: "smtp.zoho.com",
+  port: 587,
+  secure: false,
   auth: {
     user: process.env.ZOHO_EMAIL,
     pass: process.env.ZOHO_PASS,
   },
 });
 
-transporter.verify(function (error, success) {
-  if (error) {
-    console.error("❌ SMTP connection failed:", error);
-  } else {
-    console.log("✅ SMTP server is ready to send emails");
-  }
-});
-
 const sendMail = async (to, subject, html) => {
-  return transporter.sendMail({
-    from: `"Biswa Enterprises" <${process.env.ZOHO_EMAIL}>`,
-    to,
-    subject,
-    html,
-  });
+  try {
+    const info = await transporter.sendMail({
+      from: `"Biswas Enterprises" <${process.env.ZOHO_EMAIL}>`,
+      to,
+      subject,
+      html,
+    });
+
+    console.log("Email sent:", info.messageId);
+    return info;
+
+  } catch (error) {
+    console.error("❌ Email error:", error);
+    throw error;
+  }
 };
 
 module.exports = sendMail;
